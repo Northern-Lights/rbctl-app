@@ -17,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="onClickPrevious"
             android:text="@string/rsrc_previous" />
 
         <Button
@@ -24,6 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="onClickPlayPause"
             android:text="@string/rsrc_play_pause" />
 
         <Button
@@ -31,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="onClickNext"
             android:text="@string/rsrc_next" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
