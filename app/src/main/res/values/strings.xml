@@ -3,4 +3,5 @@
     <string name="rsrc_previous">Previous</string>
     <string name="rsrc_play_pause">Play/Pause</string>
     <string name="rsrc_next">Next</string>
+    <string name="rsrc_text_rhythmbox_host">Rhythmbox Host</string>
 </resources>

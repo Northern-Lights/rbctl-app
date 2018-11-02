@@ -9,6 +9,36 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/input_host"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/rsrc_text_rhythmbox_host"
+            android:inputType="textPersonName"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:importantForAutofill="no" />
+
+        <EditText
+            android:id="@+id/input_port"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Port"
+            android:inputType="number"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:importantForAutofill="no" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="bottom"
         android:orientation="horizontal">
 
