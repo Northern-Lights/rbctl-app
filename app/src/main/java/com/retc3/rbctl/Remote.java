@@ -3,6 +3,7 @@ package com.retc3.rbctl;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.retc3.rbctl.rbctlsvc.Rbctl;
 import com.retc3.rbctl.rbctlsvc.RBCtlGrpc;
@@ -20,37 +21,27 @@ public class Remote extends AppCompatActivity {
     static RBCtlGrpc.RBCtlBlockingStub blockingStub;
     Logger logger = Logger.getLogger("remote");
 
-    public void onClickNext(View v) {
+    private void sendCommand(Rbctl.Command.Type t) {
         try {
             Rbctl.Command cmd = Rbctl.Command.newBuilder()
-                    .setType(Rbctl.Command.Type.NEXT)
+                    .setType(t)
                     .build();
             Rbctl.ControlResponse resp = Remote.blockingStub.control(cmd);
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error next", e);
+            logger.log(Level.SEVERE, "Error sending command", e);
         }
+    }
+
+    public void onClickNext(View v) {
+        this.sendCommand(Rbctl.Command.Type.NEXT);
     }
 
     public void onClickPlayPause(View v) {
-        try {
-            Rbctl.Command cmd = Rbctl.Command.newBuilder()
-                    .setType(Rbctl.Command.Type.PLAY_PAUSE)
-                    .build();
-            Rbctl.ControlResponse resp = Remote.blockingStub.control(cmd);
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error play/pause", e);
-        }
+        this.sendCommand(Rbctl.Command.Type.PLAY_PAUSE);
     }
 
     public void onClickPrevious(View v) {
-        try {
-            Rbctl.Command cmd = Rbctl.Command.newBuilder()
-                    .setType(Rbctl.Command.Type.PREVIOUS)
-                    .build();
-            Rbctl.ControlResponse resp = Remote.blockingStub.control(cmd);
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error prev", e);
-        }
+        this.sendCommand(Rbctl.Command.Type.PREVIOUS);
     }
 
     @Override
