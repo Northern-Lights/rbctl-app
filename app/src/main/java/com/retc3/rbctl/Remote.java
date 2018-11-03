@@ -57,12 +57,22 @@ public class Remote extends AppCompatActivity {
             Rbctl.Command cmd = Rbctl.Command.newBuilder()
                     .setType(t)
                     .build();
-            Rbctl.ControlResponse resp = Remote.blockingStub.control(cmd);
+            Rbctl.ControlResponse resp = Remote.blockingStub.
+                    withDeadlineAfter(1, TimeUnit.SECONDS).
+                    control(cmd);
         } catch (NullPointerException e) {
             logger.log(Level.WARNING, "Channel or stub are nil; setting...");
             setClient();
+            Toast.makeText(
+                    this.getApplicationContext(),
+                    "Connection to Rhythmbox reset",
+                    Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error sending command", e);
+            Toast.makeText(
+                    getApplicationContext(),
+                    "An error occurred",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
