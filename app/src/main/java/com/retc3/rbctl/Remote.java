@@ -1,5 +1,7 @@
 package com.retc3.rbctl;
 
+// TODO: stop using main thread for event handling & gRPC
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +24,7 @@ public class Remote extends AppCompatActivity {
     static RBCtlGrpc.RBCtlBlockingStub blockingStub;
     Logger logger = Logger.getLogger("remote");
 
+    // TODO: need a better way of handling connected/not-connected state
     private void setClient() {
         if (Remote.channel != null) {
             logger.info("Shutting down current connection");
@@ -33,6 +36,8 @@ public class Remote extends AppCompatActivity {
             }
         }
 
+        // TODO: user's previous input should be persisted
+        // https://developer.android.com/training/data-storage/shared-preferences
         EditText hostInput = findViewById(R.id.input_host);
         EditText portInput = findViewById(R.id.input_port);
         String h = hostInput.getText().toString();
