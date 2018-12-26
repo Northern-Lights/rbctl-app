@@ -2,6 +2,8 @@ package com.retc3.rbctl;
 
 // TODO: stop using main thread for event handling & gRPC
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +22,13 @@ import io.grpc.ManagedChannelBuilder;
 
 public class Remote extends AppCompatActivity {
 
+    static final String SETTINGS_PREV_HOST = "com.retc3.rbctl.PREV_HOST";
+    static final String SETTINGS_PREV_PORT = "com.retc3.rbctl.PREV_PORT";
+
+    private SharedPreferences prefs;
+    private EditText hostInput;
+    private EditText portInput;
+
     static ManagedChannel channel;
     static RBCtlGrpc.RBCtlBlockingStub blockingStub;
     Logger logger = Logger.getLogger("remote");
@@ -36,8 +45,6 @@ public class Remote extends AppCompatActivity {
             }
         }
 
-        // TODO: user's previous input should be persisted
-        // https://developer.android.com/training/data-storage/shared-preferences
         EditText hostInput = findViewById(R.id.input_host);
         EditText portInput = findViewById(R.id.input_port);
         String h = hostInput.getText().toString();
@@ -55,6 +62,12 @@ public class Remote extends AppCompatActivity {
                 .build();
         Remote.blockingStub = RBCtlGrpc.newBlockingStub(Remote.channel);
         logger.info("Host and port set");
+
+        // Persist last input
+        prefs.edit().
+                putString(Remote.SETTINGS_PREV_HOST, h).
+                putString(Remote.SETTINGS_PREV_PORT, s_port).
+                apply();
     }
 
     private void sendCommand(Rbctl.Command.Type t) {
@@ -97,6 +110,13 @@ public class Remote extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remote);
+
+        hostInput = findViewById(R.id.input_host);
+        portInput = findViewById(R.id.input_port);
+
+        prefs = getPreferences(Context.MODE_PRIVATE);
+        hostInput.setText(prefs.getString(Remote.SETTINGS_PREV_HOST, ""));
+        portInput.setText(prefs.getString(Remote.SETTINGS_PREV_PORT, ""));
     }
 
     @Override
